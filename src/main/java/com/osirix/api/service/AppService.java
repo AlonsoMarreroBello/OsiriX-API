@@ -11,6 +11,8 @@ public interface AppService {
 	List<AppResponseDto> getStack(Long appId);
 	AppResponseDto geById(Long appId);
 	List<AppResponseDto> getByPartialName(String name);
+	List<AppResponseDto> getAppsByPublisher(Long publisherId);
+	List<AppResponseDto> getAppsByDeveloper(Long developerId);
 	
 	AppResponseDto create(AppRequestDto request);
 	

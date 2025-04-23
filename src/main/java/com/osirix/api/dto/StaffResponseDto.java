@@ -1,5 +1,8 @@
 package com.osirix.api.dto;
 
+
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,10 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class PublisherResponseDto extends UserResponseDto {
-	
-	private String nif;
-	private String publisherName;
-	private String address;
+public class StaffResponseDto extends UserResponseDto {
 
+	private List<PublisherResponseDto> assignedPublishers;
+	
 }

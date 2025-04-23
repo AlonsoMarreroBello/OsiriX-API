@@ -6,13 +6,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class PublisherResponseDto extends UserResponseDto {
-	
+public class PublisherRequestDto extends UserRequestDto {
+
 	private String nif;
 	private String publisherName;
 	private String address;
+	private Long assignedAdminId;
 
 }
