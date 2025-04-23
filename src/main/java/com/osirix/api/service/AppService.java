@@ -13,6 +13,7 @@ public interface AppService {
 	List<AppResponseDto> getByPartialName(String name);
 	List<AppResponseDto> getAppsByPublisher(Long publisherId);
 	List<AppResponseDto> getAppsByDeveloper(Long developerId);
+	List<AppResponseDto> getAppsByTag(Long tagId);
 	
 	AppResponseDto create(AppRequestDto request);
 	
