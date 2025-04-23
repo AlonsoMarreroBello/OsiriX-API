@@ -2,7 +2,6 @@ package com.osirix.api.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +32,7 @@ public class Friendship {
     @JoinColumn(name = "user2_id", nullable = false)
     private User user2; 
 
-    @Column(nullable = false)
-    private LocalDate friendshipDate; 
+    private LocalDate friendshipDate;
+    
+    private Boolean isAccepted = false;
 }
