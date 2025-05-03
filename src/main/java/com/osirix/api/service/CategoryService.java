@@ -2,8 +2,8 @@ package com.osirix.api.service;
 
 import java.util.List;
 
-import com.osirix.api.dto.CategoryRequestDto;
-import com.osirix.api.dto.CategoryResponseDto;
+import com.osirix.api.dto.category.CategoryRequestDto;
+import com.osirix.api.dto.category.CategoryResponseDto;
 
 public interface CategoryService {
 	

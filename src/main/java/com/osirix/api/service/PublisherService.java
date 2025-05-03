@@ -2,8 +2,8 @@ package com.osirix.api.service;
 
 import java.util.List;
 
-import com.osirix.api.dto.PublisherRequestDto;
-import com.osirix.api.dto.PublisherResponseDto;
+import com.osirix.api.dto.user.publisher.PublisherRequestDto;
+import com.osirix.api.dto.user.publisher.PublisherResponseDto;
 
 public interface PublisherService {
 	

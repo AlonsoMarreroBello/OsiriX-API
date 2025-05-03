@@ -2,8 +2,8 @@ package com.osirix.api.service;
 
 import java.util.List;
 
-import com.osirix.api.dto.AppRequestDto;
-import com.osirix.api.dto.AppResponseDto;
+import com.osirix.api.dto.app.AppRequestDto;
+import com.osirix.api.dto.app.AppResponseDto;
 
 public interface AppService {
 

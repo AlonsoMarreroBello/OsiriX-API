@@ -2,8 +2,8 @@ package com.osirix.api.service;
 
 import java.util.List;
 
-import com.osirix.api.dto.UserRequestDto;
-import com.osirix.api.dto.UserResponseDto;
+import com.osirix.api.dto.user.UserRequestDto;
+import com.osirix.api.dto.user.UserResponseDto;
 
 public interface UserService {
 	

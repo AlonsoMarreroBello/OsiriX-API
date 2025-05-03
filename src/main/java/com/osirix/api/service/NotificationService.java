@@ -2,7 +2,7 @@ package com.osirix.api.service;
 
 import java.util.List;
 
-import com.osirix.api.dto.NotificationResponseDto;
+import com.osirix.api.dto.notification.NotificationResponseDto;
 
 public interface NotificationService {
 	

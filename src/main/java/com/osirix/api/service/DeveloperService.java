@@ -1,7 +1,7 @@
 package com.osirix.api.service;
 
-import com.osirix.api.dto.DeveloperRequestDto;
-import com.osirix.api.dto.DeveloperResponseDto;
+import com.osirix.api.dto.developer.DeveloperRequestDto;
+import com.osirix.api.dto.developer.DeveloperResponseDto;
 
 public interface DeveloperService {
 	

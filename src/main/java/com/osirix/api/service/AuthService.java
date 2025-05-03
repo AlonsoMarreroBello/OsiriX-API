@@ -1,9 +1,9 @@
 package com.osirix.api.service;
 
-import com.osirix.api.dto.AuthLoginRequestDto;
-import com.osirix.api.dto.AuthResponseDto;
-import com.osirix.api.dto.UserRequestDto;
-import com.osirix.api.dto.UserResponseDto;
+import com.osirix.api.dto.auth.AuthLoginRequestDto;
+import com.osirix.api.dto.auth.AuthResponseDto;
+import com.osirix.api.dto.user.UserRequestDto;
+import com.osirix.api.dto.user.UserResponseDto;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
