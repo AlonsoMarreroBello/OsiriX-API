@@ -1,4 +1,4 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.notification;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryRequestDto {
+public class NotificationRequestDto {
 	
-	private String name;
+	private Long userId;
+	private String message;
+
 }

@@ -1,4 +1,4 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeveloperResponseDto {
+public class CategoryRequestDto {
 	
-	private Long id;
 	private String name;
-	
 }

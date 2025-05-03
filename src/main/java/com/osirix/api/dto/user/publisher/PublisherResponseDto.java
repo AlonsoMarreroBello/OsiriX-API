@@ -1,4 +1,6 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.user.publisher;
+
+import com.osirix.api.dto.user.UserResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

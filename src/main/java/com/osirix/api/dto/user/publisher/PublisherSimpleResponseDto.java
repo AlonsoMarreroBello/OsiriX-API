@@ -1,4 +1,6 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.user.publisher;
+
+import com.osirix.api.dto.user.UserSimpleResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,14 +8,10 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class PublisherRequestDto extends UserRequestDto {
+public class PublisherSimpleResponseDto extends UserSimpleResponseDto {
 
-	private String nif;
 	private String publisherName;
-	private String address;
-	private Long assignedAdminId;
-
 }

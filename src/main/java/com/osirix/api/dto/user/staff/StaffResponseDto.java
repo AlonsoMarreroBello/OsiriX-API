@@ -1,7 +1,10 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.user.staff;
 
 
 import java.util.List;
+
+import com.osirix.api.dto.user.UserResponseDto;
+import com.osirix.api.dto.user.publisher.PublisherResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

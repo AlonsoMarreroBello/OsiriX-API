@@ -1,4 +1,4 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.developer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthLoginRequestDto {
+public class DeveloperResponseDto {
 	
-	private String email;
-	private String password;
-
+	private Long id;
+	private String name;
+	
 }

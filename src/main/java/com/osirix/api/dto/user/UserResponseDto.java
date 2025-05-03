@@ -1,4 +1,4 @@
-package com.osirix.api.dto;
+package com.osirix.api.dto.user;
 
 import java.time.LocalDate;
 
