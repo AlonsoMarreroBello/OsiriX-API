@@ -12,4 +12,9 @@ public class AuthResponseDto {
 	private String token;
 	private String tokenType;
 
+	public AuthResponseDto(String token) {
+		this.token = token;
+		this.tokenType = "BEARER ";
+	}
+	
 }

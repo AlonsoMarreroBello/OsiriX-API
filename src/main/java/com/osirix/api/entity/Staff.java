@@ -1,5 +1,7 @@
 package com.osirix.api.entity;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +26,20 @@ import lombok.NoArgsConstructor;
 @DiscriminatorValue("STAFF")
 public class Staff extends User {
 
-    @OneToMany(mappedBy = "assignedAdmin")
+    public Staff(String username, String email, String password, LocalDate registerDate, LocalDate lastLogin, boolean isEnabled, boolean accountNotLocked,
+			List<Publisher> assignedPublishers, Set<Role> roles) {
+    	super.setUsername(username);
+    	super.setEmail(email);
+    	super.setPassword(password);
+    	super.setRegisterDate(registerDate);
+    	super.setLastLogin(lastLogin);
+    	super.setIsEnabled(isEnabled);
+    	super.setAccountNotLocked(accountNotLocked);
+    	this.assignedPublishers = assignedPublishers;
+    	this.roles = roles;
+	}
+
+	@OneToMany(mappedBy = "assignedAdmin")
     private List<Publisher> assignedPublishers;  
     
     @ManyToMany(fetch = FetchType.EAGER)
