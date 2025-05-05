@@ -1,5 +1,6 @@
 package com.osirix.api.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -13,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ import com.osirix.api.dto.user.UserResponseDto;
 import com.osirix.api.entity.Role;
 import com.osirix.api.entity.Staff;
 import com.osirix.api.entity.User;
+import com.osirix.api.exception.ResourceNotFoundException;
 import com.osirix.api.jwt.JwtTokenProvider;
 import com.osirix.api.mapper.UserMapper;
 import com.osirix.api.repository.UserRepository;
@@ -53,9 +56,9 @@ public class UserDetailsServiceImpl implements AuthService {
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	    User userEntity = userRepository.findUserByUsername(username)
-	        .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	    User userEntity = userRepository.findUserByEmail(email)
+	        .orElseThrow(() -> new ResourceNotFoundException("User not found: " + email));
 
 	    Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
 
@@ -66,12 +69,13 @@ public class UserDetailsServiceImpl implements AuthService {
 	    return new CustomUserDetails(userEntity, authorities);
 	}
 	
-	public Authentication authenticate(String username, String password) {
-		UserDetails userDetails = this.loadUserByUsername(username);
+	public Authentication authenticate(String email, String password) {
+		UserDetails userDetails = this.loadUserByUsername(email);
+		
 		if (!passwordEncoder.matches(password, userDetails.getPassword())) {
 			throw new BadCredentialsException("Invalid username or password");
 		}
-		return new UsernamePasswordAuthenticationToken(username, 
+		return new UsernamePasswordAuthenticationToken(email, 
 													   userDetails.getPassword(), 
 													   userDetails.getAuthorities()
 													   );
@@ -96,9 +100,14 @@ public class UserDetailsServiceImpl implements AuthService {
 		
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		
+		user.setRegisterDate(LocalDate.now());
+		user.setLastLogin(LocalDate.now());
+		user.setIsEnabled(true);
+		user.setAccountNotLocked(true);
+		
 		userRepository.save(user);
 		
-		return this.login(new AuthLoginRequestDto(user.getEmail(), user.getPassword(), "desktop"));
+		return this.login(new AuthLoginRequestDto(user.getEmail(), request.getPassword(), "desktop"));
 		
 	}
 

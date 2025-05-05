@@ -14,7 +14,7 @@ import com.osirix.api.entity.Staff;
 import com.osirix.api.repository.RoleRepository;
 import com.osirix.api.repository.StaffRepository;
 
-@Configuration
+//@Configuration
 public class LoadDatabase {
 
 
