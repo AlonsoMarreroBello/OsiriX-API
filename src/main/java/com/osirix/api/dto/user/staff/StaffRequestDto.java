@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class StaffRequestDto extends UserRequestDto {
 
-	List<Long> AsignedPublishersIds;
-	List<String> roles;
+	List<Long> asignedPublishersIds;
+	List<String> roleNames;
 	
 }
