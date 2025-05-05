@@ -1,11 +1,13 @@
 package com.osirix.api.service;
 
+import java.util.List;
+
 import com.osirix.api.dto.developer.DeveloperRequestDto;
 import com.osirix.api.dto.developer.DeveloperResponseDto;
 
 public interface DeveloperService {
 	
-	DeveloperResponseDto getAll();
+	List<DeveloperResponseDto> getAll();
 	DeveloperResponseDto getById(Long DeveloperId);
 	
 	DeveloperResponseDto createDeveloper(DeveloperRequestDto request);
