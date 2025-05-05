@@ -21,24 +21,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.osirix.api.dto.auth.AuthLoginRequestDto;
 import com.osirix.api.dto.auth.AuthResponseDto;
+import com.osirix.api.dto.user.UserRequestDto;
+import com.osirix.api.dto.user.UserResponseDto;
 import com.osirix.api.entity.Role;
 import com.osirix.api.entity.Staff;
 import com.osirix.api.entity.User;
 import com.osirix.api.jwt.JwtTokenProvider;
+import com.osirix.api.mapper.UserMapper;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.security.CustomUserDetails;
+import com.osirix.api.service.AuthService;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements AuthService {
 
 	@Autowired
 	UserRepository userRepository;
 	
 	@Autowired
+	UserMapper userMapper;
+	
+	@Autowired
 	JwtTokenProvider jwtTokenProvider;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	PasswordEncoder passwordEncoder;
 	
 	public Collection<GrantedAuthority> mapToAuthorities(Set<Role> roles) {
 		return roles.stream()
@@ -59,7 +66,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	    return new CustomUserDetails(userEntity, authorities);
 	}
 	
-	private Authentication authenticate(String username, String password) {
+	public Authentication authenticate(String username, String password) {
 		UserDetails userDetails = this.loadUserByUsername(username);
 		if (!passwordEncoder.matches(password, userDetails.getPassword())) {
 			throw new BadCredentialsException("Invalid username or password");
@@ -81,6 +88,31 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new AuthResponseDto(accessToken);
                 
     }
+	
+	@Override
+	public AuthResponseDto register(UserRequestDto request) {
+	
+		User user = userMapper.ToEntity(request);
+		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		userRepository.save(user);
+		
+		return this.login(new AuthLoginRequestDto(user.getEmail(), user.getPassword(), "desktop"));
+		
+	}
+
+	@Override
+	public boolean canUserUploadToApp(Long appId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canUserDownloadApp(Long appId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
 

@@ -15,7 +15,7 @@ public interface AuthService extends UserDetailsService {
 	
 	AuthResponseDto login(AuthLoginRequestDto request);
 	
-	UserResponseDto register(UserRequestDto request);
+	AuthResponseDto register(UserRequestDto request);
 	
 	Authentication authenticate(String name, String password);
 
