@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class FriendshipResponseDto {
 	
 	private Long id;
-	private Long userOneId;
-	private Long userTwoId;
+	private Long user1Id;
+	private Long user2Id;
 	private LocalDate friendshipDate;
     private Boolean isAccepted = false;
 
