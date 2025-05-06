@@ -12,8 +12,8 @@ import com.osirix.api.entity.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 	
-	Optional<Role> findRoleByName(String name);
+	Optional<Role> findRoleByRoleName(String name);
 
-	Set<Role> findByNameIn(List<String> roleNames);
+	Set<Role> findByRoleNameIn(List<String> roleNames);
 
 }

@@ -61,7 +61,7 @@ public class StaffServiceImpl implements StaffService {
 	    }
 
 	    if (request.getRoleNames() != null && !request.getRoleNames().isEmpty()) {
-	        Set<Role> roles = roleRepository.findByNameIn(request.getRoleNames());
+	        Set<Role> roles = roleRepository.findByRoleNameIn(request.getRoleNames());
 	        
 	        if (roles.size() != request.getRoleNames().size()) {
 	            throw new ResourceNotFoundException("Some roles not found");
@@ -101,7 +101,7 @@ public class StaffServiceImpl implements StaffService {
 		    }
 
 		    if (request.getRoleNames() != null && !request.getRoleNames().isEmpty()) {
-		        Set<Role> roles = roleRepository.findByNameIn(request.getRoleNames());
+		        Set<Role> roles = roleRepository.findByRoleNameIn(request.getRoleNames());
 		        
 		        if (roles.size() != request.getRoleNames().size()) {
 		            throw new ResourceNotFoundException("Some roles not found");
