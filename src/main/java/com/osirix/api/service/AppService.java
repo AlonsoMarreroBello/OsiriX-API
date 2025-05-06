@@ -9,11 +9,11 @@ public interface AppService {
 
 	List<AppResponseDto> getAll();
 	List<AppResponseDto> getStack(Long appId);
-	AppResponseDto geById(Long appId);
+	AppResponseDto getById(Long appId);
 	List<AppResponseDto> getByPartialName(String name);
 	List<AppResponseDto> getAppsByPublisher(Long publisherId);
 	List<AppResponseDto> getAppsByDeveloper(Long developerId);
-	List<AppResponseDto> getAppsByTag(Long tagId);
+	List<AppResponseDto> getAppsByCategory(List<Long> categoryId);
 	
 	AppResponseDto create(AppRequestDto request);
 	
@@ -22,7 +22,7 @@ public interface AppService {
 	AppResponseDto toggleShow(Long appId);
 	AppResponseDto toggleDownload(Long appId);
 	
-	Void deleteById(Long appId);
+	void deleteById(Long appId);
 	
 	boolean appExists(Long id);
 	String getAppStoredFilename(Long appId);

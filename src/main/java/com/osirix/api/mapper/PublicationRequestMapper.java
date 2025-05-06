@@ -12,7 +12,7 @@ import com.osirix.api.dto.request.publication.PublicationResponseDto;
 import com.osirix.api.entity.PublicationRequest;
 import com.osirix.api.entity.RequestStatus;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = AppMapper.class)
 public interface PublicationRequestMapper {
 
 	@Mapping(target = "requestDate", ignore = true)

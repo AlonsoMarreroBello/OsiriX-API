@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AppResponseDto {
 	
-	private Long id;
+	private Long appId;
 	private PublisherResponseDto publisher;
 	private DeveloperResponseDto developer;
 	private String name;
