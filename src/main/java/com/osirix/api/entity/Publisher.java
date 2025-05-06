@@ -24,6 +24,11 @@ public class Publisher extends User {
 
     @ManyToOne
     @JoinColumn(name = "assigned_admin_id")
-    private Staff assignedAdmin;  // Un publisher tiene un staff asignado
+    private Staff assignedAdmin;  
 
+    
+    public void removeAssignedAdmin() {
+    	assignedAdmin.getAssignedPublishers().remove(this);
+    	this.assignedAdmin = null;
+    }
 }
