@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class PublicationResponseDto extends RequestResponseDto {
 
 	private DeveloperResponseDto developer;
-	private Long asignedStaffId;
+	private Long assignedStaffId;
 	private AppResponseDto app;
 	
 }

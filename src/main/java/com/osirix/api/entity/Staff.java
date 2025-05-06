@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.osirix.api.utils.UserType;
+
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,4 +52,9 @@ public class Staff extends User {
     )
     private Set<Role> roles = new HashSet<Role>();
 
+    @Override
+    public UserType getType() {
+    	return UserType.STAFF;
+    }
+    
 }

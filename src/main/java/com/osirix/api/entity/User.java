@@ -1,6 +1,9 @@
 package com.osirix.api.entity;
 
 import java.time.LocalDate;
+
+import com.osirix.api.utils.UserType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -48,4 +51,8 @@ public class User {
     @Column(nullable = false)
     private Boolean accountNotLocked = true;
 
+    public UserType getType() {
+    	return UserType.USER;
+    }
+    
 }

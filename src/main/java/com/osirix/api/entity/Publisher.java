@@ -1,6 +1,8 @@
 package com.osirix.api.entity;
 
 
+import com.osirix.api.utils.UserType;
+
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -31,4 +33,10 @@ public class Publisher extends User {
     	assignedAdmin.getAssignedPublishers().remove(this);
     	this.assignedAdmin = null;
     }
+    
+    @Override
+    public UserType getType() {
+    	return UserType.PUBLISHER;
+    }
+    
 }
