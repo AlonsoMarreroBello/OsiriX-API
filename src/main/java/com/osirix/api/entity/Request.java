@@ -50,4 +50,25 @@ public class Request {
     @Lob
     @Column(columnDefinition = "TEXT")
     private String requestBody;
+
+	public void setRequestStatus(String status) {
+		switch (status.toUpperCase()) {
+			case "PENDANT": 
+				this.requestStatus = RequestStatus.PENDANT;
+			break;
+			case "ACCEPTED": 
+				this.requestStatus = RequestStatus.ACCEPTED;
+				break;
+			case "REVOKED": 
+				this.requestStatus = RequestStatus.REVOKED;
+				break;
+		
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + status);
+		}
+	}
+	
+	public void setRequestStatus(RequestStatus status) {
+		this.requestStatus = status;
+	}
 }

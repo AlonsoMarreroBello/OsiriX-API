@@ -2,7 +2,7 @@ package com.osirix.api.dto.request;
 
 import java.time.LocalDate;
 
-import com.osirix.api.dto.user.publisher.PublisherSimpleResponseDto;
+import com.osirix.api.dto.user.UserResponseDto;
 import com.osirix.api.entity.RequestStatus;
 
 import lombok.AllArgsConstructor;
@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestResponseDto {
 	
-	private Long id;
-	private PublisherSimpleResponseDto user;
+	private Long requestId;
+	private UserResponseDto user;
 	private LocalDate requestDate;
 	private RequestStatus requestStatus;
 	private String adminComments;

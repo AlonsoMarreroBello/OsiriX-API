@@ -19,11 +19,5 @@ public interface RequestService {
 	RequestResponseDto update(Long requestId, RequestDto request);
 	
 	void delete(Long requestId);
-	
-	
-	
-	// PublicationRequest
-	
-	List<RequestResponseDto> getByAsignedStaffId(Long staffId);
 
 }
