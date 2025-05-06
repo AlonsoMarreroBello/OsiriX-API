@@ -1,11 +1,15 @@
 package com.osirix.api.mapper;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import com.osirix.api.dto.user.publisher.PublisherRequestDto;
 import com.osirix.api.dto.user.publisher.PublisherResponseDto;
+import com.osirix.api.dto.user.staff.StaffResponseDto;
 import com.osirix.api.entity.Publisher;
+import com.osirix.api.utils.UserType;
 
 @Mapper(componentModel = "spring")
 public interface PublisherMapper {
@@ -20,5 +24,10 @@ public interface PublisherMapper {
 	
 	@Mapping(target = "userType", ignore = true)
 	PublisherResponseDto toResponse(Publisher publisher);
+	
+	@AfterMapping
+	default void afterMapping(@MappingTarget PublisherResponseDto publisherResponseDto) {
+		publisherResponseDto.setUserType(UserType.PUBLISHER.toString());
+	}
 	
 }

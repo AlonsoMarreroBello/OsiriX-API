@@ -63,11 +63,7 @@ public class PublisherServiceImpl implements PublisherService {
 		
 		Publisher savedPublisher = publisherRepository.save(publisher);
 		
-		PublisherResponseDto response = publisherMapper.toResponse(savedPublisher);
-		
-		response.setUserType(UserType.PUBLISHER.toString());
-		
-		return response;
+		return publisherMapper.toResponse(savedPublisher);
 	}
 
 	@Override
@@ -107,11 +103,10 @@ public class PublisherServiceImpl implements PublisherService {
 	            publisher.setAssignedAdmin(staff);
 	        }
 	    }
-
+	    
 	    Publisher savedPublisher = publisherRepository.save(publisher);
-	    PublisherResponseDto response = publisherMapper.toResponse(savedPublisher);
-	    response.setUserType(UserType.PUBLISHER.toString());
-	    return response;
+	   
+	    return publisherMapper.toResponse(savedPublisher);
 	}
 
 
