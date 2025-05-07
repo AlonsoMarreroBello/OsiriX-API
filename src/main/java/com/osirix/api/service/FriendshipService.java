@@ -10,6 +10,9 @@ public interface FriendshipService {
 	List<FriendshipResponseDto> getByUserId(Long userId);
 	
 	FriendshipResponseDto sendFriendshipRequest(Long senderId, String username);
-
+	
+	void acceptFriendship(Long friendshipId);
+	
 	void deleteFriendship(Long friendshipId);
+	
 }

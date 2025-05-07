@@ -1,5 +1,6 @@
 package com.osirix.api.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.friendship.FriendshipResponseDto;
+import com.osirix.api.dto.notification.NotificationRequestDto;
 import com.osirix.api.entity.Friendship;
 import com.osirix.api.entity.User;
 import com.osirix.api.exception.ResourceAlreadyExistingException;
@@ -17,6 +19,7 @@ import com.osirix.api.mapper.FriendshipMapper;
 import com.osirix.api.repository.FriendshipRepository;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.FriendshipService;
+import com.osirix.api.service.NotificationService;
 
 @Service
 public class FriendshipServiceimpl implements FriendshipService {
@@ -29,6 +32,9 @@ public class FriendshipServiceimpl implements FriendshipService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	NotificationService notificationService;
 
 	@Override
 	public FriendshipResponseDto getById(Long id) {
@@ -76,14 +82,42 @@ public class FriendshipServiceimpl implements FriendshipService {
 		fResponse.setUser1Id(friendship.getUser1().getId());
 		fResponse.setUser2Id(friendship.getUser2().getId());
 		
+		
+		NotificationRequestDto notification = new NotificationRequestDto(receiver.getId(), "new frienship request from {}" + sender.getUsername() );
+		
+		notificationService.sendNotification(notification);
+		
 		return fResponse;
 	}
 
+	@Override
+	public void acceptFriendship(Long friendshipId) {
+		Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow(() -> new ResourceNotFoundException("friendship not found"));
+		
+		friendship.setIsAccepted(true);
+		friendship.setFriendshipDate(LocalDate.now());
+		
+		NotificationRequestDto notification = new NotificationRequestDto(
+				friendship.getUser1().getId(), "You and " + friendship.getUser2().getUsername() + " are now friends"
+				);
+		
+		NotificationRequestDto notification2 = new NotificationRequestDto(
+				friendship.getUser2().getId(), "You and " + friendship.getUser1().getUsername() + " are now friends"
+				);
+		
+		notificationService.sendNotification(notification);
+		notificationService.sendNotification(notification2);
+		
+		friendshipRepository.save(friendship);
+	}
+	
 	@Override
 	public void deleteFriendship(Long friendshipId) {
 		Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow(() -> new ResourceNotFoundException("friendship not found"));
 		
 		friendshipRepository.delete(friendship);
 	}
+	
+	
 
 }

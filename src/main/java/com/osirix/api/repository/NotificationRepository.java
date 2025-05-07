@@ -14,4 +14,9 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 	@Query("SELECT n FROM Notification n WHERE n.user.id = :userId")
 	Collection<Notification> findByUserId(Long userId);
 
+	@Query("SELECT n FROM Notification n WHERE n.user.id = :userId AND n.seen = false")
+	Collection<Notification> findByUserIdNotSeen(Long userId);
+	
+	
+
 }

@@ -1,6 +1,7 @@
 package com.osirix.api.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +34,50 @@ public class NotificationServiceImpl implements NotificationService {
 	public NotificationResponseDto getById(Long id) {
 		Notification notification = notificationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Notification not found"));
 		
-		return notificationMapper.toResponse(notification);
+		NotificationResponseDto response = notificationMapper.toResponse(notification);
+		
+		response.setId(notification.getNotificationId());
+		response.setUserId(notification.getUser().getId());
+		
+		return response;
 	}
 
 	@Override
 	public List<NotificationResponseDto> getNotificationsByUserId(Long userId) {
-		List<NotificationResponseDto> notifications = notificationRepository.findByUserId(userId).stream().map(notificationMapper::toResponse).collect(Collectors.toList());
+		List<Notification> notifications = notificationRepository.findByUserId(userId).stream().collect(Collectors.toList());
 		
-		return notifications;
+		List<NotificationResponseDto> response = new ArrayList<>();
+		
+		for (Notification notification : notifications) {
+			NotificationResponseDto notifiResp = notificationMapper.toResponse(notification);
+			
+			notifiResp.setId(notification.getNotificationId());
+			notifiResp.setUserId(notification.getUser().getId());
+			
+			response.add(notifiResp);
+		}
+		
+		
+		return response;
+	}
+
+	@Override
+	public List<NotificationResponseDto> getNotSeenNotificationsByUserId(Long userId) {
+		List<Notification> notifications = notificationRepository.findByUserIdNotSeen(userId).stream().collect(Collectors.toList());
+		
+		List<NotificationResponseDto> response = new ArrayList<>();
+		
+		for (Notification notification : notifications) {
+			NotificationResponseDto notifiResp = notificationMapper.toResponse(notification);
+			
+			notifiResp.setId(notification.getNotificationId());
+			notifiResp.setUserId(notification.getUser().getId());
+			
+			response.add(notifiResp);
+		}
+		
+		
+		return response;
 	}
 
 	@Override
@@ -64,8 +101,14 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		notification.setSeen(true);
 		
-		return notificationMapper.toResponse(notificationRepository.save(notification));
+		Notification savedNotification = notificationRepository.save(notification);
+
+		NotificationResponseDto response = notificationMapper.toResponse(savedNotification);
 		
+		response.setId(notification.getNotificationId());
+		response.setUserId(notification.getUser().getId());
+		
+		return response;
 	}
 
 	@Override

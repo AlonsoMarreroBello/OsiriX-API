@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user-communications") // Grupo para notificaciones, mensajes, etc.
+@RequestMapping("/api/v1") 
 public class NotificationController {
 
     private static final String NOTIFICATION_RESOURCE = "/notifications";
     private static final String NOTIFICATION_ID_PATH = NOTIFICATION_RESOURCE + "/{notificationId}";
     private static final String NOTIFICATIONS_BY_USER_PATH = NOTIFICATION_RESOURCE + "/by-user/{userId}";
+    private static final String NOTIFICATIONS_BY_USER_NOT_SEEN_PATH = NOTIFICATIONS_BY_USER_PATH + "/not-seen";
     private static final String NOTIFICATION_MARK_AS_SEEN_PATH = NOTIFICATION_ID_PATH + "/mark-as-seen";
 
     @Autowired
@@ -47,6 +48,16 @@ public class NotificationController {
                 HttpStatus.OK.value(),
                 notifications);
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping(NOTIFICATIONS_BY_USER_NOT_SEEN_PATH)
+    public ResponseEntity<ApiResponseDto<List<NotificationResponseDto>>> getNotificationsByUserIdNotSeen(@PathVariable Long userId) {
+    	List<NotificationResponseDto> notifications = notificationService.getNotSeenNotificationsByUserId(userId);
+    	ApiResponseDto<List<NotificationResponseDto>> response = new ApiResponseDto<>(
+    			"Notifications for user fetched successfully",
+    			HttpStatus.OK.value(),
+    			notifications);
+    	return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping(NOTIFICATION_RESOURCE)

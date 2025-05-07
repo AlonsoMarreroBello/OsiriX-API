@@ -56,8 +56,16 @@ public class FriendshipController {
                 "Friendship request sent successfully",
                 HttpStatus.CREATED.value(),
                 friendshipRequest);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+    
+    @PatchMapping(FRIENDSHIP_ID_PATH)
+    public ResponseEntity<Void> postMethodName(@PathVariable Long friendshipId) {
+        friendshipService.acceptFriendship(friendshipId);
+        return ResponseEntity.noContent().build();
+    }
+    
 
     @DeleteMapping(FRIENDSHIP_ID_PATH)
     public ResponseEntity<Void> deleteFriendship(@PathVariable Long friendshipId) {

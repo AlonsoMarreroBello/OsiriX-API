@@ -9,11 +9,11 @@ public interface NotificationService {
 	
 	NotificationResponseDto getById(Long id);
 	List<NotificationResponseDto> getNotificationsByUserId(Long userId);
+	List<NotificationResponseDto> getNotSeenNotificationsByUserId(Long userId);
 	
 	NotificationResponseDto sendNotification(NotificationRequestDto request);
 	NotificationResponseDto markNotificationAsSeen(Long notificationId);
 	
 	void deleteNotification(Long id);
-	
 
 }
