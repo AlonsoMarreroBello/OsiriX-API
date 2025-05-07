@@ -28,6 +28,6 @@ public class AppResponseDto {
     private List<CategoryResponseDto> categories;
     private String description;
     private Integer downloads;
-    private LocalDate releaseDate;
+    private LocalDate publicationDate;
 
 }

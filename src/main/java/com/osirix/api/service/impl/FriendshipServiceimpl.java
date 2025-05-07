@@ -1,19 +1,24 @@
 package com.osirix.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.friendship.FriendshipResponseDto;
 import com.osirix.api.entity.Friendship;
 import com.osirix.api.entity.User;
+import com.osirix.api.exception.ResourceAlreadyExistingException;
 import com.osirix.api.exception.ResourceNotFoundException;
 import com.osirix.api.mapper.FriendshipMapper;
 import com.osirix.api.repository.FriendshipRepository;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.FriendshipService;
 
+@Service
 public class FriendshipServiceimpl implements FriendshipService {
 	
 	@Autowired
@@ -28,13 +33,28 @@ public class FriendshipServiceimpl implements FriendshipService {
 	@Override
 	public FriendshipResponseDto getById(Long id) {
 		Friendship friendship = friendshipRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("friendship not found"));
+		FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
 		
-		return friendshipMapper.toResponse(friendship);
+		fResponse.setUser1Id(friendship.getUser1().getId());
+		fResponse.setUser2Id(friendship.getUser2().getId());
+		
+		return fResponse;
 	}
 
 	@Override
 	public List<FriendshipResponseDto> getByUserId(Long userId) {
-		return friendshipRepository.findByUserId(userId).stream().map(friendshipMapper::toResponse).collect(Collectors.toList());
+		 List<Friendship> friendships = friendshipRepository.findByUserId(userId).stream().collect(Collectors.toList());
+		 List<FriendshipResponseDto> response = new ArrayList<>();
+		 
+		 for (Friendship friendship : friendships) {
+			FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
+			
+			fResponse.setUser1Id(friendship.getUser1().getId());
+			fResponse.setUser2Id(friendship.getUser2().getId());
+			response.add(fResponse);
+		}
+		
+		return response;
 	}
 
 	@Override
@@ -43,9 +63,20 @@ public class FriendshipServiceimpl implements FriendshipService {
 		User sender = userRepository.findById(senderId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		User receiver = userRepository.findUserByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		
-		Friendship friendship = Friendship.builder().user1(sender).user2(receiver).friendshipDate(null).isAccepted(false).build();
+		Optional<Friendship> friendshipTest = friendshipRepository.findByUser1IdAndUser2Id(sender.getId(), receiver.getId());
 		
-		return friendshipMapper.toResponse(friendshipRepository.save(friendship));
+		if (friendshipTest.isPresent()) {
+			throw new ResourceAlreadyExistingException("Friendship or friendship requests between users already exists");
+		}
+		
+		Friendship friendship = Friendship.builder().user1(sender).user2(receiver).friendshipDate(null).isAccepted(false).build();
+
+		FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
+		
+		fResponse.setUser1Id(friendship.getUser1().getId());
+		fResponse.setUser2Id(friendship.getUser2().getId());
+		
+		return fResponse;
 	}
 
 	@Override

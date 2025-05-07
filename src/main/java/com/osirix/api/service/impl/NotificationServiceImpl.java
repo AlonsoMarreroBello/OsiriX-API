@@ -1,11 +1,11 @@
 package com.osirix.api.service.impl;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.notification.NotificationRequestDto;
 import com.osirix.api.dto.notification.NotificationResponseDto;
@@ -17,6 +17,7 @@ import com.osirix.api.repository.NotificationRepository;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.NotificationService;
 
+@Service
 public class NotificationServiceImpl implements NotificationService {
 	
 	@Autowired

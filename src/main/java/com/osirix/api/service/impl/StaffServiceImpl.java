@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.user.staff.StaffRequestDto;
 import com.osirix.api.dto.user.staff.StaffResponseDto;
@@ -20,6 +21,7 @@ import com.osirix.api.repository.RoleRepository;
 import com.osirix.api.repository.StaffRepository;
 import com.osirix.api.service.StaffService;
 
+@Service
 public class StaffServiceImpl implements StaffService {
 	
 	@Autowired

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.request.RequestDto;
 import com.osirix.api.dto.request.RequestResponseDto;
@@ -16,6 +17,7 @@ import com.osirix.api.repository.RequestRepository;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.RequestService;
 
+@Service
 public class RequestServiceImpl implements RequestService {
 	
 	@Autowired

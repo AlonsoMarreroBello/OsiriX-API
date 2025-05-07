@@ -7,6 +7,7 @@ import javax.naming.directory.InvalidAttributesException;
 
 import org.hibernate.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.request.publication.PublicationRequestDto;
 import com.osirix.api.dto.request.publication.PublicationRequestSimpleDto;
@@ -26,6 +27,7 @@ import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.PublicationRequestService;
 import com.osirix.api.utils.UserType;
 
+@Service
 public class PublicationRequestServiceImpl implements PublicationRequestService {
 
 	@Autowired

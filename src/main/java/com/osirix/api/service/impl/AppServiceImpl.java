@@ -23,6 +23,7 @@ import com.osirix.api.entity.User;
 import com.osirix.api.entity.UserLibrary;
 import com.osirix.api.exception.ResourceNotFoundException;
 import com.osirix.api.mapper.AppMapper;
+import com.osirix.api.mapper.CategoryMapper;
 import com.osirix.api.repository.AppRepository;
 import com.osirix.api.repository.CategoryRepository;
 import com.osirix.api.repository.DeveloperRepository;
@@ -54,6 +55,9 @@ public class AppServiceImpl implements AppService {
 	
 	@Autowired
 	AppMapper appMapper;
+
+	@Autowired
+	CategoryMapper categoryMapper;
 
 	@Override
 	public List<AppResponseDto> getAll() {
@@ -95,7 +99,7 @@ public class AppServiceImpl implements AppService {
 
 	@Override
 	public List<AppResponseDto> getAppsByUserId(Long userId) {
-		List<UserLibrary> libraries = userLibraryRepository.findAll();
+		List<UserLibrary> libraries = userLibraryRepository.findByUserId(userId);
 		
 		List<AppResponseDto> apps = new ArrayList<>();
 		
@@ -121,6 +125,21 @@ public class AppServiceImpl implements AppService {
 		app.setDownloads(0);
 		app.setPublicationDate(LocalDate.now());
 		
+		Set<Category> categories = new HashSet<>();
+		
+		for (Category category : app.getCategories()) {
+			Optional<Category> opCategory = categoryRepository.findBycategoryName(category.getCategoryName());
+			
+			if (opCategory.isEmpty()) {
+				categories.add(categoryRepository.save(category));
+			} else {
+				categories.add(opCategory.get());
+			}
+			
+		}
+		
+		app.setCategories(categories);
+		
 		return appMapper.toResponse(appRepository.save(app));
 	}
 
@@ -134,10 +153,13 @@ public class AppServiceImpl implements AppService {
 		
 		Set<Category> categories = new HashSet<>();
 		for (CategoryRequestDto category : request.getCategories()) {
-			Category cat = categoryRepository.findBycategoryName(category.getCategoryName())
-												.orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+			Optional<Category> opCategory = categoryRepository.findBycategoryName(category.getCategoryName());
 			
-			categories.add(cat);
+			if (opCategory.isEmpty()) {
+				categories.add(categoryRepository.save(categoryMapper.toEntity(category)));
+			} else {
+				categories.add(opCategory.get());
+			}
 		}
 		
 		app.setCategories(categories);

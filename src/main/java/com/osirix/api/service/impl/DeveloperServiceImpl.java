@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.developer.DeveloperRequestDto;
 import com.osirix.api.dto.developer.DeveloperResponseDto;
@@ -13,6 +14,7 @@ import com.osirix.api.mapper.DeveloperMapper;
 import com.osirix.api.repository.DeveloperRepository;
 import com.osirix.api.service.DeveloperService;
 
+@Service
 public class DeveloperServiceImpl implements DeveloperService {
 	
 	@Autowired

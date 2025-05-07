@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.user.UserRequestDto;
 import com.osirix.api.dto.user.UserResponseDto;
@@ -14,6 +15,7 @@ import com.osirix.api.mapper.UserMapper;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.UserService;
 
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired

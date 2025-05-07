@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.category.CategoryRequestDto;
 import com.osirix.api.dto.category.CategoryResponseDto;
@@ -13,6 +14,7 @@ import com.osirix.api.mapper.CategoryMapper;
 import com.osirix.api.repository.CategoryRepository;
 import com.osirix.api.service.CategoryService;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 	
 	@Autowired

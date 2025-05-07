@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.user.publisher.PublisherRequestDto;
 import com.osirix.api.dto.user.publisher.PublisherResponseDto;
@@ -19,6 +20,7 @@ import com.osirix.api.repository.StaffRepository;
 import com.osirix.api.service.PublisherService;
 import com.osirix.api.utils.UserType;
 
+@Service
 public class PublisherServiceImpl implements PublisherService {
 	
 	@Autowired

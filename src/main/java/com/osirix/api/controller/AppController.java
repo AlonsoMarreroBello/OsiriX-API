@@ -30,7 +30,6 @@ public class AppController {
     private static final String APP_FILENAME_PATH = APP_ID_PATH + "/filename";
     private static final String APP_ADD_TO_LIBRARY_PATH = APP_ID_PATH + "/library/user/{userId}";
 
-
     @Autowired
     AppServiceImpl appService;
 
@@ -193,10 +192,10 @@ public class AppController {
 
     @PostMapping(APP_ADD_TO_LIBRARY_PATH)
     public ResponseEntity<ApiResponseDto<Boolean>> addAppToUserLibrary(@PathVariable Long appId, @PathVariable Long userId) {
-        boolean success = appService.addAppToUserLibrary(userId, appId); // Asegúrate que el orden de parámetros coincida con el servicio
+        boolean success = appService.addAppToUserLibrary(userId, appId); 
         ApiResponseDto<Boolean> response = new ApiResponseDto<>(
                 success ? "App added to user library successfully" : "Failed to add app to user library",
-                HttpStatus.OK.value(), // O CREATED si es más apropiado y la operación es idempotente
+                HttpStatus.OK.value(), 
                 success);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
