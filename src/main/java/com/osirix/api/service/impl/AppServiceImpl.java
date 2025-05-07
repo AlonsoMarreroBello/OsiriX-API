@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import com.osirix.api.dto.app.AppRequestDto;
 import com.osirix.api.dto.app.AppResponseDto;
@@ -30,6 +31,7 @@ import com.osirix.api.repository.UserLibraryRepository;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.AppService;
 
+@Service
 public class AppServiceImpl implements AppService {
 	
 	@Autowired
