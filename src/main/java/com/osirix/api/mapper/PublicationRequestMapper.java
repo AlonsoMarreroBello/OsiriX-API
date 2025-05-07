@@ -12,7 +12,7 @@ import com.osirix.api.dto.request.publication.PublicationResponseDto;
 import com.osirix.api.entity.PublicationRequest;
 import com.osirix.api.entity.RequestStatus;
 
-@Mapper(componentModel = "spring", uses = AppMapper.class)
+@Mapper(componentModel = "spring", uses = {AppMapper.class, UserMapper.class})
 public interface PublicationRequestMapper {
 
 	@Mapping(target = "requestDate", ignore = true)
@@ -35,7 +35,7 @@ public interface PublicationRequestMapper {
 	PublicationRequest toEntity(PublicationRequestDto request);
 	
 	@Mapping(target = "assignedStaffId", ignore = true)
-	PublicationResponseDto toResponse(PublicationRequest request); // TODO añadir "uses AppMapper.class".
+	PublicationResponseDto toResponse(PublicationRequest request); 
 	
 	@AfterMapping
 	default void afterMapping(PublicationRequest request) {

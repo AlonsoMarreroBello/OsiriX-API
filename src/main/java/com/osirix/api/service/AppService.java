@@ -15,6 +15,8 @@ public interface AppService {
 	List<AppResponseDto> getAppsByDeveloper(Long developerId);
 	List<AppResponseDto> getAppsByCategory(List<Long> categoryId);
 	
+	List<AppResponseDto> getAppsByUserId(Long userId);
+	
 	AppResponseDto create(AppRequestDto request);
 	
 	AppResponseDto update(Long appId, AppRequestDto request);
@@ -26,5 +28,7 @@ public interface AppService {
 	
 	boolean appExists(Long id);
 	String getAppStoredFilename(Long appId);
+	
+	boolean addAppToUserLibrary(Long userId, Long appId);
 	
 }

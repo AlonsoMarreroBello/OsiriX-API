@@ -1,6 +1,7 @@
 package com.osirix.api.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -17,12 +18,16 @@ import com.osirix.api.entity.App;
 import com.osirix.api.entity.Category;
 import com.osirix.api.entity.Developer;
 import com.osirix.api.entity.Publisher;
+import com.osirix.api.entity.User;
+import com.osirix.api.entity.UserLibrary;
 import com.osirix.api.exception.ResourceNotFoundException;
 import com.osirix.api.mapper.AppMapper;
 import com.osirix.api.repository.AppRepository;
 import com.osirix.api.repository.CategoryRepository;
 import com.osirix.api.repository.DeveloperRepository;
 import com.osirix.api.repository.PublisherRepository;
+import com.osirix.api.repository.UserLibraryRepository;
+import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.AppService;
 
 public class AppServiceImpl implements AppService {
@@ -38,6 +43,12 @@ public class AppServiceImpl implements AppService {
 	
 	@Autowired
 	CategoryRepository categoryRepository;
+	
+	@Autowired
+	UserLibraryRepository userLibraryRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Autowired
 	AppMapper appMapper;
@@ -80,6 +91,20 @@ public class AppServiceImpl implements AppService {
 		return appRepository.findByCategoriesIds(categoryIds).stream().map(appMapper::toResponse).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<AppResponseDto> getAppsByUserId(Long userId) {
+		List<UserLibrary> libraries = userLibraryRepository.findAll();
+		
+		List<AppResponseDto> apps = new ArrayList<>();
+		
+		for (UserLibrary library : libraries) {
+			apps.add(appMapper.toResponse(library.getApp()));
+		}
+		
+		return apps;
+		
+	}
+	
 	@Override
 	public AppResponseDto create(AppRequestDto request) {
 		App app = appMapper.toEntity(request);
@@ -176,6 +201,18 @@ public class AppServiceImpl implements AppService {
 	public String getAppStoredFilename(Long appId) {
 		App app = appRepository.findById(appId).orElseThrow(() -> new ResourceNotFoundException("App not found"));
 		return  app.getAppId().toString();
+	}
+
+	@Override
+	public boolean addAppToUserLibrary(Long userId, Long appId) {
+		App app = appRepository.findById(appId).orElseThrow(() -> new ResourceNotFoundException("App not found"));
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+		
+		UserLibrary userLibrary = UserLibrary.builder().app(app).user(user).build();
+		
+		UserLibrary saved = userLibraryRepository.save(userLibrary);
+		
+		return saved != null;
 	}
 
 }
