@@ -5,9 +5,14 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.osirix.api.entity.User;
+import com.osirix.api.exception.ResourceNotFoundException;
+import com.osirix.api.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,16 +27,22 @@ public class JwtTokenProvider {
 	
 	private static final long JWT_EXPIRATION_DATE = 180000000;
 	
+	@Autowired
+	UserRepository userRepository;
+	
 	public String generateToken(Authentication authentication) {
 		String username = authentication.getName();
 		Date currentDate = new Date();
 		Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION_DATE);
+		User user = userRepository.findUserByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found."));
+		
 		
 		return Jwts.builder()
 				   .subject(username)
 				   .issuedAt(currentDate)
 				   .expiration(expireDate)
 				   .signWith(getSignInKey(), Jwts.SIG.HS256)
+				   .claim("userId", user.getId())
 				   .compact();
 	}
 	
