@@ -59,6 +59,9 @@ public class UserDetailsServiceImpl implements AuthService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 	    User userEntity = userRepository.findUserByEmail(email)
 	        .orElseThrow(() -> new ResourceNotFoundException("User not found: " + email));
+	    
+	    userEntity.setLastLogin(LocalDate.now());
+	    userRepository.save(userEntity);
 
 	    Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
 
