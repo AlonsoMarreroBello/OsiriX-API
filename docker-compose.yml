@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # Servicio de MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: osirix-mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: EstaEsUnaPasswordSuperSeguraPeroDelRoot1234
+      MYSQL_DATABASE: osirix_db
+      MYSQL_USER: osirix_user
+      MYSQL_PASSWORD: EstaEsUnaPasswordSuperSegura1234
+    volumes:
+      - ./init.sql:/docker.entrypoint.initdb.d/init.sql # Archivo de usuarios
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - osirix-net
+
+  # Servicio de phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: osirix-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: EstaEsUnaPasswordSuperSeguraPeroDelRoot1234
+      UPLOAD_LIMIT: 1G
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - osirix-net
+
+  # Servicio de MinIO
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: osirix-minio-storage
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: YOUR_MINIO_ACCESS_KEY
+      MINIO_ROOT_PASSWORD: YOUR_MINIO_SECRET_KEY
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000" # puerto de la API de MinIO al host
+      - "9001:9001" # puerto de la Consola Web de MinIO al host
+    command: server /data --console-address ":9001"
+    networks:
+      - osirix-net
+    healthcheck:
+      # Verifica si MinIO está listo
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysql_data:
+  minio_data:
+
+
+networks:
+  osirix-net:
+    driver: bridge
