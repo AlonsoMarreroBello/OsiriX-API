@@ -1,5 +1,8 @@
 package com.osirix.api.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +31,19 @@ public class FileControler {
 		}
 		return "";
 	}
+
+	@GetMapping("/app/getall")
+	@PreAuthorize("authentication.principal.user instanceof T(com.osirix.api.entity.User)")
+	public Map<String, String> getMethodNamea() {
+		try {
+			return minioService.getPresignedDownloadUrlsForFolder("1", AppFileType.FILES, 10);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new HashMap<>();
+	}
+	
+	
 	
 	
 	

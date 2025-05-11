@@ -29,7 +29,7 @@ public interface MinioService {
      * @throws Exception Si ocurre un error al generar la URL.
      */
     String getPresignedUrlForObject(String appId, AppFileType fileType, String objectName, Method method, int expiryInMinutes, String contentType) throws Exception;
-
+    
     /**
      * Genera URLs prefirmadas de DESCARGA para todos los objetos existentes dentro de la carpeta 'files' (o 'media') de una app.
      *
