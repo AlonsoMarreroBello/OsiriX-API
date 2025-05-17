@@ -1,6 +1,9 @@
 package com.osirix.api.jwt;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
@@ -10,9 +13,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import com.osirix.api.entity.Publisher;
+import com.osirix.api.entity.Staff;
 import com.osirix.api.entity.User;
 import com.osirix.api.exception.ResourceNotFoundException;
+import com.osirix.api.repository.PublisherRepository;
+import com.osirix.api.repository.StaffRepository;
 import com.osirix.api.repository.UserRepository;
+import com.osirix.api.utils.UserType;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -29,6 +37,10 @@ public class JwtTokenProvider {
 	
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	PublisherRepository publisherRepository;
+	@Autowired
+	StaffRepository staffRepository;
 	
 	public String generateToken(Authentication authentication) {
 		String username = authentication.getName();
@@ -36,13 +48,32 @@ public class JwtTokenProvider {
 		Date expireDate = new Date(currentDate.getTime() + JWT_EXPIRATION_DATE);
 		User user = userRepository.findUserByEmail(username).orElseThrow(() -> new ResourceNotFoundException("User " + username + " not found."));
 		
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("userId", user.getId());
+		
+		UserType usertype;
+		Optional<Publisher> publisher = publisherRepository.findById(user.getId());
+		if (publisher.isEmpty()) {
+			Optional<Staff> staff = staffRepository.findById(user.getId());
+			if (staff.isEmpty()) {
+				usertype = UserType.USER;
+			} else {
+				usertype = UserType.STAFF;
+				claims.put("roles", staff.get().getRoles());
+			}
+		} else {
+			usertype = UserType.PUBLISHER;
+		}
+		
+		claims.put("userType", usertype);
+		
 		
 		return Jwts.builder()
 				   .subject(username)
 				   .issuedAt(currentDate)
 				   .expiration(expireDate)
 				   .signWith(getSignInKey(), Jwts.SIG.HS256)
-				   .claim("userId", user.getId())
+				   .claims(claims)
 				   .compact();
 	}
 	
