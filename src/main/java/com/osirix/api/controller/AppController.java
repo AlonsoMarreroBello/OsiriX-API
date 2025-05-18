@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -107,6 +108,7 @@ public class AppController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PutMapping(APP_ID_PATH)
+    @PreAuthorize("@appSecurity.canManageAppAssets(authentication, #appId)")
     public ResponseEntity<ApiResponseDto<AppResponseDto>> updateApp(
             @Parameter(description = "ID of the app to update", required = true, example = "1") @PathVariable Long appId,
             @Valid @org.springframework.web.bind.annotation.RequestBody AppRequestDto appRequestDto) {
@@ -125,6 +127,7 @@ public class AppController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @DeleteMapping(APP_ID_PATH)
+    @PreAuthorize("@appSecurity.canManageAppAssets(authentication, #appId)")
     public ResponseEntity<ApiResponseDto<Void>> deleteApp(
             @Parameter(description = "ID of the app to delete", required = true, example = "1") @PathVariable Long appId) {
         appService.deleteById(appId);
@@ -244,6 +247,7 @@ public class AppController {
             @ApiResponse(responseCode = "500", description = "Internal server error during status toggle")
     })
     @PatchMapping(APP_TOGGLE_PUBLISH_PATH)
+    @PreAuthorize("@appSecurity.canManageAppAssets(authentication, #appId)")
     public ResponseEntity<ApiResponseDto<AppResponseDto>> toggleAppPublishStatus(
             @Parameter(description = "ID of the app whose publish status is to be toggled", required = true, example = "1") @PathVariable Long appId) {
         AppResponseDto app = appService.togglePublish(appId);
@@ -261,6 +265,7 @@ public class AppController {
             @ApiResponse(responseCode = "500", description = "Internal server error during visibility toggle")
     })
     @PatchMapping(APP_TOGGLE_VISIBILITY_PATH)
+    @PreAuthorize("@appSecurity.canManageAppAssets(authentication, #appId)")
     public ResponseEntity<ApiResponseDto<AppResponseDto>> toggleAppVisibility(
             @Parameter(description = "ID of the app whose visibility is to be toggled", required = true, example = "1") @PathVariable Long appId) {
         AppResponseDto app = appService.toggleShow(appId);
@@ -278,6 +283,7 @@ public class AppController {
             @ApiResponse(responseCode = "500", description = "Internal server error during downloadable status toggle")
     })
     @PatchMapping(APP_TOGGLE_DOWNLOADABLE_PATH)
+    @PreAuthorize("@appSecurity.canManageAppAssets(authentication, #appId)")
     public ResponseEntity<ApiResponseDto<AppResponseDto>> toggleAppDownloadableStatus(
             @Parameter(description = "ID of the app whose downloadable status is to be toggled", required = true, example = "1") @PathVariable Long appId) {
         AppResponseDto app = appService.toggleDownload(appId);

@@ -30,5 +30,6 @@ public interface AppService {
 	String getAppStoredFilename(Long appId);
 	
 	boolean addAppToUserLibrary(Long userId, Long appId);
+	boolean isUserPublisherOfApp(Long userId, Long appId);
 	
 }

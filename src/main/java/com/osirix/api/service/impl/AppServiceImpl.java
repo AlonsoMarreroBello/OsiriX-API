@@ -239,4 +239,10 @@ public class AppServiceImpl implements AppService {
 		return saved != null;
 	}
 
+	@Override
+	public boolean isUserPublisherOfApp(Long userId, Long appId) {
+		App app = appRepository.findById(appId).orElseThrow(() -> new ResourceNotFoundException("App not found"));
+		return app != null && app.getPublisher().getId().equals(userId);
+	}
+
 }
