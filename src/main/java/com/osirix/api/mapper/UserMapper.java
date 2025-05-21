@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.osirix.api.dto.user.UserRequestDto;
 import com.osirix.api.dto.user.UserResponseDto;
+import com.osirix.api.dto.user.UserSimpleResponseDto;
 import com.osirix.api.entity.User;
 
 @Mapper(componentModel = "spring")
@@ -19,5 +20,7 @@ public interface UserMapper {
 	
 	@Mapping(target = "userType", ignore = true)
 	UserResponseDto toDto(User user);
+	
+	UserSimpleResponseDto toSimpleDto(User user);
 
 }

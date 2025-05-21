@@ -16,6 +16,7 @@ import com.osirix.api.entity.User;
 import com.osirix.api.exception.ResourceAlreadyExistingException;
 import com.osirix.api.exception.ResourceNotFoundException;
 import com.osirix.api.mapper.FriendshipMapper;
+import com.osirix.api.mapper.UserMapper;
 import com.osirix.api.repository.FriendshipRepository;
 import com.osirix.api.repository.UserRepository;
 import com.osirix.api.service.FriendshipService;
@@ -34,6 +35,9 @@ public class FriendshipServiceimpl implements FriendshipService {
 	UserRepository userRepository;
 	
 	@Autowired
+	UserMapper userMapper;
+	
+	@Autowired
 	NotificationService notificationService;
 
 	@Override
@@ -41,8 +45,8 @@ public class FriendshipServiceimpl implements FriendshipService {
 		Friendship friendship = friendshipRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("friendship not found"));
 		FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
 		
-		fResponse.setUser1Id(friendship.getUser1().getId());
-		fResponse.setUser2Id(friendship.getUser2().getId());
+		fResponse.setUser1(userMapper.toSimpleDto(friendship.getUser1()));
+		fResponse.setUser2(userMapper.toSimpleDto(friendship.getUser2()));
 		
 		return fResponse;
 	}
@@ -55,8 +59,8 @@ public class FriendshipServiceimpl implements FriendshipService {
 		 for (Friendship friendship : friendships) {
 			FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
 			
-			fResponse.setUser1Id(friendship.getUser1().getId());
-			fResponse.setUser2Id(friendship.getUser2().getId());
+			fResponse.setUser1(userMapper.toSimpleDto(friendship.getUser1()));
+			fResponse.setUser2(userMapper.toSimpleDto(friendship.getUser2()));
 			response.add(fResponse);
 		}
 		
@@ -79,8 +83,8 @@ public class FriendshipServiceimpl implements FriendshipService {
 
 		FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
 		
-		fResponse.setUser1Id(friendship.getUser1().getId());
-		fResponse.setUser2Id(friendship.getUser2().getId());
+		fResponse.setUser1(userMapper.toSimpleDto(friendship.getUser1()));
+		fResponse.setUser2(userMapper.toSimpleDto(friendship.getUser2()));
 		
 		
 		NotificationRequestDto notification = new NotificationRequestDto(receiver.getId(), "new frienship request from {}" + sender.getUsername() );
