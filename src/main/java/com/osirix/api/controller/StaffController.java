@@ -1,6 +1,7 @@
 package com.osirix.api.controller;
 
 import com.osirix.api.dto.ApiResponseDto;
+import com.osirix.api.dto.role.RoleResponseDto;
 import com.osirix.api.dto.user.staff.StaffRequestDto;
 import com.osirix.api.dto.user.staff.StaffResponseDto;
 import com.osirix.api.service.impl.StaffServiceImpl;
@@ -25,6 +26,7 @@ import java.util.List;
 public class StaffController {
 
     private static final String STAFF_RESOURCE = "/staff";
+    private static final String ROLE_RESOURCE = "/roles";    
     private static final String STAFF_ID_PATH = STAFF_RESOURCE + "/{staffId}";
 
     @Autowired
@@ -92,4 +94,16 @@ public class StaffController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping(ROLE_RESOURCE)
+    public ResponseEntity<ApiResponseDto<List<RoleResponseDto>>> getAllRoles() {
+    	List<RoleResponseDto> roles = staffService.getAllRoles();
+        ApiResponseDto<List<RoleResponseDto>> response = new ApiResponseDto<>(
+                "Roles fetched successfully",
+                HttpStatus.OK.value(),
+                roles);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
+    
+    
 }

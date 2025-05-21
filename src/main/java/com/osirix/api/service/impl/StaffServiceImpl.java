@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.osirix.api.dto.role.RoleResponseDto;
 import com.osirix.api.dto.user.staff.StaffRequestDto;
 import com.osirix.api.dto.user.staff.StaffResponseDto;
 import com.osirix.api.entity.Publisher;
 import com.osirix.api.entity.Role;
 import com.osirix.api.entity.Staff;
 import com.osirix.api.exception.ResourceNotFoundException;
+import com.osirix.api.mapper.RoleMapper;
 import com.osirix.api.mapper.StaffMapper;
 import com.osirix.api.repository.PublisherRepository;
 import com.osirix.api.repository.RoleRepository;
@@ -38,6 +40,9 @@ public class StaffServiceImpl implements StaffService {
 
 	@Autowired 
 	RoleRepository roleRepository;
+	
+	@Autowired
+	RoleMapper roleMapper;
 
 	@Override
 	public List<StaffResponseDto> getAll() {
@@ -115,6 +120,11 @@ public class StaffServiceImpl implements StaffService {
 		    Staff savedStaff = staffRepository.save(staff);
 
 		    return staffMapper.toResponse(savedStaff);
+	}
+
+	@Override
+	public List<RoleResponseDto> getAllRoles() {
+		return roleRepository.findAll().stream().map(roleMapper::toDto).collect(Collectors.toList());
 	}
 
 }

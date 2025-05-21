@@ -44,6 +44,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponseDto updateUser(Long userId, UserRequestDto request) {
+		System.out.println(request);
+		
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		
 		if (!request.getUsername().isBlank() && !request.getUsername().isEmpty()) {

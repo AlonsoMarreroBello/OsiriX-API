@@ -19,10 +19,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = true) 
+@ToString(callSuper = true) 
 @NoArgsConstructor
 @AllArgsConstructor
 @DiscriminatorValue("STAFF")
