@@ -58,7 +58,7 @@ public class FileControler {
 		return new HashMap<>();
 	}
 	
-	@PostMapping(value = "/batch-upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "/batch-upload/{appId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PreAuthorize("@appSecurity.canManageAppAssets(authentication, #appId)")
     public ResponseEntity<Map<String, Object>> uploadAppAssetsBatch(
             @PathVariable String appId,

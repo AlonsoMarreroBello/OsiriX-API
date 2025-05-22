@@ -113,6 +113,9 @@ public class AppServiceImpl implements AppService {
 	
 	@Override
 	public AppResponseDto create(AppRequestDto request) {
+		
+		System.out.println(request);
+		
 		App app = appMapper.toEntity(request);
 		
 		Developer dev = developerRepository.findById(request.getDeveloperId())

@@ -61,7 +61,10 @@ public class RequestServiceImpl implements RequestService {
 	public RequestResponseDto update(Long requestId, RequestDto request) {
 		Request oldRequest = requestRepository.findById(requestId)
 												.orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+		System.out.println(request);
 		
+		oldRequest.setRequestTitle(request.getRequestTitle());
+		oldRequest.setRequestBody(request.getRequestBody());
 		oldRequest.setRequestStatus(request.getStatus());
 		oldRequest.setAdminComments(request.getAdminComments());
 		
