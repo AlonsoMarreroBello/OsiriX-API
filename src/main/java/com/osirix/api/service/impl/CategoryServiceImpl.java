@@ -1,5 +1,6 @@
 package com.osirix.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,14 +27,27 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryResponseDto> getAll() {
-		return categoryRepository.findAll().stream().map(categoryMapper::toResponse).collect(Collectors.toList());
+		List<Category> categories = categoryRepository.findAll();
+		
+		
+		List<CategoryResponseDto> responses = new ArrayList<>();
+		for (Category category : categories) {
+			CategoryResponseDto response = categoryMapper.toResponse(category);
+			response.setCategoryType(category.getCategoryType());
+			responses.add(response);
+		}
+		
+		return responses;
 	}
 
 	@Override
 	public CategoryResponseDto getById(Long categoryId) {
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		
-		return categoryMapper.toResponse(category);
+		CategoryResponseDto response = categoryMapper.toResponse(category);
+		response.setCategoryType(category.getCategoryType());
+		
+		return response;
 	}
 
 	@Override
