@@ -80,12 +80,11 @@ public class FriendshipServiceimpl implements FriendshipService {
 		}
 		
 		Friendship friendship = Friendship.builder().user1(sender).user2(receiver).friendshipDate(null).isAccepted(false).build();
-
-		FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendship);
+		
+		FriendshipResponseDto fResponse = friendshipMapper.toResponse(friendshipRepository.save(friendship));
 		
 		fResponse.setUser1(userMapper.toSimpleDto(friendship.getUser1()));
 		fResponse.setUser2(userMapper.toSimpleDto(friendship.getUser2()));
-		
 		
 		NotificationRequestDto notification = new NotificationRequestDto(receiver.getId(), "new frienship request from {}" + sender.getUsername() );
 		
