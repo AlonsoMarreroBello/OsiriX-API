@@ -24,4 +24,6 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String categoryName;
+    
+    private CategoryType categoryType;
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.osirix.api.dto.category.CategoryRequestDto;
 import com.osirix.api.dto.category.CategoryResponseDto;
 import com.osirix.api.entity.Category;
+import com.osirix.api.entity.CategoryType;
 import com.osirix.api.exception.ResourceNotFoundException;
 import com.osirix.api.mapper.CategoryMapper;
 import com.osirix.api.repository.CategoryRepository;
@@ -38,7 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryResponseDto create(CategoryRequestDto request) {
 		
+		System.out.println("Received request DTO: " + request);
+		
 		Category category = categoryMapper.toEntity(request);
+		
+		category.setCategoryType(request.getType());
+		
+		System.out.println("Mapped entity before save: " + category);
 		
 		return categoryMapper.toResponse(categoryRepository.save(category));
 	}
@@ -48,6 +55,8 @@ public class CategoryServiceImpl implements CategoryService {
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		
 		category.setCategoryName(request.getCategoryName());
+		
+		category.setCategoryType(request.getType());
 		
 		Category updatedCategory = categoryRepository.save(category);
 		return categoryMapper.toResponse(updatedCategory);
