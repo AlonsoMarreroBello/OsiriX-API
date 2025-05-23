@@ -47,6 +47,25 @@ public class FileControler {
 		return "";
 	}
 
+	@GetMapping("/app/{appId}/download/{fileName}")
+	public ResponseEntity<?> getDownloadUrl(
+	        @PathVariable String appId,
+	        @PathVariable String fileName) {
+	    try {
+	        String presignedUrl = minioService.getPresignedUrlForObject(
+	            appId,
+	            AppFileType.FILES, // o MEDIA si es una imagen, depende del uso
+	            fileName,
+	            Method.GET,
+	            5, // minutos válidos
+	            "GET"
+	        );
+	        return ResponseEntity.ok(Map.of("url", presignedUrl));
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body(Map.of("error", "No se pudo generar la URL de descarga."));
+	    }
+	}
 	@GetMapping("/app/getall")
 	//@PreAuthorize("authentication.principal.user instanceof T(com.osirix.api.entity.User)")
 	public Map<String, String> getMethodNamea() {
