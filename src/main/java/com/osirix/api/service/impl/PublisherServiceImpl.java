@@ -63,6 +63,8 @@ public class PublisherServiceImpl implements PublisherService {
 			publisher.setAssignedAdmin(staff);
 		}
 		
+		publisher.setPassword(passwordEncoder.encode(request.getPassword()));
+		
 		Publisher savedPublisher = publisherRepository.save(publisher);
 		
 		return publisherMapper.toResponse(savedPublisher);

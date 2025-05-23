@@ -60,6 +60,10 @@ public class UserDetailsServiceImpl implements AuthService {
 	    User userEntity = userRepository.findUserByEmail(email)
 	        .orElseThrow(() -> new ResourceNotFoundException("User not found: " + email));
 	    
+	    if (!userEntity.getIsEnabled()) {
+	    	throw new IllegalAccessError("account is not enabled");
+	    }
+	    
 	    userEntity.setLastLogin(LocalDate.now());
 	    userRepository.save(userEntity);
 

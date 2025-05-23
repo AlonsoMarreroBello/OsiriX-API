@@ -44,6 +44,7 @@ public class SecurityConfig {
 						"/doc/swagger-ui/**",
 						"/doc/swagger-ui.html",
 						"/v3/api-docs/**", "/api/v1/auth/*").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/v1/publishers").permitAll()
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

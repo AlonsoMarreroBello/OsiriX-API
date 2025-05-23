@@ -43,7 +43,7 @@ public class StaffServiceImpl implements StaffService {
 	
 	@Autowired
 	RoleMapper roleMapper;
-
+	
 	@Override
 	public List<StaffResponseDto> getAll() {
 		return staffRepository.findAll().stream().map(staffMapper::toResponse).collect(Collectors.toList());
@@ -76,6 +76,8 @@ public class StaffServiceImpl implements StaffService {
 
 	        staff.setRoles(roles);
 	    }
+	    
+	    staff.setPassword(passwordEncoder.encode(request.getPassword()));
 		
 		return staffMapper.toResponse(staffRepository.save(staff));
 	}
