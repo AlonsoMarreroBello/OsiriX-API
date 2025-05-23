@@ -35,17 +35,6 @@ public class FileControler {
 	
 	@Autowired
 	MinioServiceImpl minioService;
-	
-	@GetMapping("/app")
-	//@PreAuthorize("authentication.principal.user instanceof T(com.osirix.api.entity.User)")
-	public String getMethodName() {
-		try {
-			return minioService.getPresignedUrlForObject("1", AppFileType.FILES, "cpu-z_2.15-en.zip", Method.GET, 1, "GET");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
 
 	@GetMapping("/app/{appId}/download/{fileName}")
 	public ResponseEntity<?> getDownloadUrl(
