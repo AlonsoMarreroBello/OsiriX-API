@@ -235,11 +235,19 @@ public class AppServiceImpl implements AppService {
 		App app = appRepository.findById(appId).orElseThrow(() -> new ResourceNotFoundException("App not found"));
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		
-		UserLibrary userLibrary = UserLibrary.builder().app(app).user(user).build();
+		Optional<UserLibrary> library_opt = userLibraryRepository.findByUserIdAndAppId(userId, appId);
 		
-		UserLibrary saved = userLibraryRepository.save(userLibrary);
+		UserLibrary saved = null;
+		
+		if (library_opt.isPresent()) {
+			UserLibrary userLibrary = UserLibrary.builder().app(app).user(user).build();
+			
+			saved = userLibraryRepository.save(userLibrary);
+			
+		}
 		
 		return saved != null;
+		
 	}
 
 	@Override
