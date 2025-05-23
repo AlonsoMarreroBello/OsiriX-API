@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.osirix.api.entity.App;
+import com.osirix.api.exception.ResourceNotFoundException;
+import com.osirix.api.repository.AppRepository;
 
 import io.minio.BucketExistsArgs;
 import io.minio.GetBucketPolicyArgs;
@@ -45,6 +49,9 @@ public class MinioServiceImpl implements MinioService {
 
     private final MinioClient minioClient;
     private final String mainBucketName; 
+    
+    @Autowired
+    AppRepository appRepository;
 
     public MinioServiceImpl(MinioClient minioClient,
                                    @Value("${minio.bucket-name}") String mainBucketName) {
@@ -137,6 +144,13 @@ public class MinioServiceImpl implements MinioService {
 
         try {
             String url = minioClient.getPresignedObjectUrl(argsBuilder.build());
+            
+            App app = appRepository.findById(Long.parseLong(appId)).orElseThrow(() -> new ResourceNotFoundException("APP NOT FOUND"));
+            
+            app.setDownloads(app.getDownloads()+1);
+            
+            appRepository.save(app);
+            
             return url;
         } catch (MinioException | InvalidKeyException | IOException | NoSuchAlgorithmException e) {
             throw new Exception("No se pudo generar la URL prefirmada para el objeto: " + fullObjectPath, e);

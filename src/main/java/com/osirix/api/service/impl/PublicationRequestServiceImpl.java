@@ -12,11 +12,13 @@ import org.hibernate.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.osirix.api.dto.notification.NotificationRequestDto;
 import com.osirix.api.dto.request.publication.PublicationRequestDto;
 import com.osirix.api.dto.request.publication.PublicationRequestSimpleDto;
 import com.osirix.api.dto.request.publication.PublicationResponseDto;
 import com.osirix.api.entity.App;
 import com.osirix.api.entity.Developer;
+import com.osirix.api.entity.Notification;
 import com.osirix.api.entity.PublicationRequest;
 import com.osirix.api.entity.Publisher;
 import com.osirix.api.entity.RequestStatus;
@@ -30,6 +32,7 @@ import com.osirix.api.repository.PublicationRequestRepository;
 import com.osirix.api.repository.PublisherRepository;
 import com.osirix.api.repository.StaffRepository;
 import com.osirix.api.repository.UserRepository;
+import com.osirix.api.service.NotificationService;
 import com.osirix.api.service.PublicationRequestService;
 import com.osirix.api.utils.UserType;
 
@@ -59,6 +62,9 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
 
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	NotificationService notificationService;
 	
 	
 	@Override
@@ -137,6 +143,11 @@ public class PublicationRequestServiceImpl implements PublicationRequestService 
 				pRequest.setUser(user);
 				Publisher publisher = (Publisher) user;
 				pRequest.setAssignedStaff(publisher.getAssignedAdmin());
+				
+				NotificationRequestDto notification = new NotificationRequestDto(
+						publisher.getAssignedAdmin().getId(), "New publication request from " + publisher.getUsername() );
+				
+				notificationService.sendNotification(notification);
 
 
 			} else {
